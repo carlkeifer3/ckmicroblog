@@ -7,7 +7,7 @@ from datetime import datetime
 from app import lm, oid, app, db, babel
 from forms import LoginForm, EditForm, PostForm, SearchForm
 from models import User, ROLE_USER, ROLE_ADMIN, Post
-from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES
+from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES, WHOOSH_ENABLED
 from emails import follower_notification
 
 # index view function supressed for brevity
@@ -43,6 +43,8 @@ def before_request():
 		db.session.add(g.user)
 		db.session.commit()
 		g.search_form = SearchForm()
+	g.locale = get_locale()
+	g.search_enabled = WHOOSH_ENABLED
 	
 
 @oid.after_login

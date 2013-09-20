@@ -1,6 +1,7 @@
 from app import app, db
 from hashlib import md5
 import flask.ext.whooshalchemy as whooshalchemy
+from config import WHOOSH_ENABLED
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
@@ -8,6 +9,10 @@ ROLE_ADMIN = 1
 followers = db.Table('followers',
 	db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
 	db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
+
+if WHOOSH_ENABLED:
+	import flask.ext.whooshalchemy as whooshalchemy
+	whooshalchemy.whoosh_index(app, Post)
 
 class User(db.Model):
 	id = db.Column(db.Integer, primary_key = True)

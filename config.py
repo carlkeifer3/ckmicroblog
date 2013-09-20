@@ -31,9 +31,12 @@ POSTS_PER_PAGE = 3
 
 #Search options
 WHOOSH_BASE = os.path.join(basedir, 'search.db')
+WHOOSH_ENABLED = os.environ.get('HEROKU') is None
 MAX_SEARCH_RESULTS = 50
 
 # -*- coding: utf-8 -*-
+
+
 
 # ...
 # available languages
