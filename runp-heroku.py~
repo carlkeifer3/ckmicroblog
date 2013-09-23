@@ -1,0 +1,6 @@
+#!flask/bin/python
+from app import app
+<<<<<<< HEAD
+
+=======
+>>>>>>> e0f4770cf9905cd956a8c3795778fb5d4843e009

@@ -1,0 +1,7 @@
+[python: **.py]
+[jinja2: **/templates/**.html]
+extensions=jinja2.ext.autoescape,jinja2.ext.with_
+<<<<<<< HEAD
+=======
+
+>>>>>>> e0f4770cf9905cd956a8c3795778fb5d4843e009
