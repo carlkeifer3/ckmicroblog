@@ -10,11 +10,25 @@ followers = db.Table('followers',
 	db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
 	db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
 
-if WHOOSH_ENABLED:
-	import flask.ext.whooshalchemy as whooshalchemy
-	whooshalchemy.whoosh_index(app, Post)
+class Post(db.Model):
+	"""
+	  Allows users to post messages to their accounts
+	"""
+	__searchable__ = ['body']
+	
+	id = db.Column(db.Integer, primary_key = True)
+	body = db.Column(db.String(140))
+	timestamp = db.Column(db.DateTime)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	
+	def __repr__(self):
+		return "<Post %r>" % (self.body)
 
 class User(db.Model):
+	"""
+	  allows the creation and managment of users on the system
+	
+	"""
 	id = db.Column(db.Integer, primary_key = True)
 	nickname = db.Column(db.String(64), index = True, unique = True)
 	email = db.Column(db.String(120), index = True, unique = True)
@@ -75,16 +89,9 @@ class User(db.Model):
 			version += 1
 		
 		return new_nickname
-		
-class Post(db.Model):
-	__searchable__ = ['body']
-	
-	id = db.Column(db.Integer, primary_key = True)
-	body = db.Column(db.String(140))
-	timestamp = db.Column(db.DateTime)
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-	
-	def __repr__(self):
-		return "<Post %r>" % (self.body)
+
+if WHOOSH_ENABLED:
+	import flask.ext.whooshalchemy as whooshalchemy
+	whooshalchemy.whoosh_index(app, Post)
 
 whooshalchemy.whoosh_index(app, Post)
